@@ -1,7 +1,7 @@
 :root {
     --space-black: #0b0d17;
     --lunar-grey: #d2d2d2;
-    --nasa-blue: #0032a0;
+    --nasa-blue: #002868;
     --accent-cyan: #4cc9f0;
 }
 
@@ -25,6 +25,8 @@ nav {
     position: fixed;
     width: 90%;
     z-index: 1000;
+    flex-wrap: wrap;
+    gap: 15px;
 }
 
 .logo-space {
@@ -49,8 +51,20 @@ nav {
     transform: scale(1.05);
 }
 
-ul { display: flex; list-style: none; }
-li a { color: white; text-decoration: none; margin-left: 30px; font-weight: 300; text-transform: uppercase; letter-spacing: 2px; }
+ul { 
+    display: flex; 
+    list-style: none; 
+    flex-wrap: wrap;
+    gap: 15px;
+}
+li a { 
+    color: white; 
+    text-decoration: none; 
+    margin-left: 30px; 
+    font-weight: 300; 
+    text-transform: uppercase; 
+    letter-spacing: 2px;
+}
 
 .hero {
     height: 80vh;
@@ -62,7 +76,16 @@ li a { color: white; text-decoration: none; margin-left: 30px; font-weight: 300;
     text-align: center;
 }
 
-.hero h1 { font-size: 5rem; letter-spacing: 15px; margin-bottom: 10px; }
+.hero h1 { 
+    font-size: 5rem; 
+    letter-spacing: 15px; 
+    margin-bottom: 10px; 
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    margin: 15px 0;
+}
 
 .content-block { padding: 100px 10%; }
 .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; }
@@ -156,6 +179,7 @@ li a { color: white; text-decoration: none; margin-left: 30px; font-weight: 300;
     border-left: 4px solid var(--accent-cyan);
     text-align: center;
     transition: all 0.3s ease;
+    width: 13%;
 }
 
 .team-member:hover {
@@ -277,4 +301,337 @@ footer p {
 
 .submit-btn:active {
     transform: translateY(1px);
+}
+
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+    nav {
+        padding: 15px 3%;
+        width: 94%;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .logo-space {
+        order: -1;
+        margin-bottom: 10px;
+    }
+
+    ul {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        margin: 0;
+        padding: 0;
+    }
+
+    li a {
+        margin-left: 0;
+        font-size: 0.85rem;
+        letter-spacing: 1px;
+    }
+
+    .hero {
+        height: 50vh;
+        padding: 20px;
+    }
+
+    .hero h1 {
+        font-size: 2.5rem;
+        letter-spacing: 8px;
+        margin-bottom: 15px;
+    }
+
+    .subtitle {
+        font-size: 1rem;
+    }
+
+    .status-tag {
+        font-size: 0.85rem;
+        padding: 8px 12px;
+    }
+
+    .content-block {
+        padding: 50px 5%;
+    }
+
+    .grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .dark-section {
+        padding: 50px 5%;
+    }
+
+    .dark-section h2 {
+        font-size: 2rem;
+        margin: 0 0 30px 0;
+    }
+
+    .spec-container {
+        padding: 25px;
+        border-radius: 5px;
+    }
+
+    .spec-item {
+        margin-bottom: 12px;
+        font-size: 0.9rem;
+    }
+
+    .innovations-container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .innovation-card {
+        padding: 20px;
+    }
+
+    .innovation-card h3 {
+        font-size: 1.1rem;
+    }
+
+    .testing-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .data-box {
+        padding: 20px;
+    }
+
+    .data-box h4 {
+        font-size: 1rem;
+    }
+
+    .team-grid {
+        flex-direction: column;
+        gap: 15px;
+        align-items: stretch;
+    }
+
+    .team-member {
+        padding: 20px;
+        min-width: auto;
+    }
+
+    .team-member h4 {
+        font-size: 1rem;
+    }
+
+    .team-member p {
+        font-size: 0.85rem;
+    }
+
+    .contact-form {
+        flex-direction: column;
+        gap: 15px;
+        padding: 15px 10%;
+        max-width: 100%;
+    }
+
+    .contact-form h3 {
+        font-size: 1.1rem;
+        letter-spacing: 1px;
+    }
+
+    .form-group {
+        width: 100%;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+        width: 100%;
+        padding: 10px;
+        font-size: 0.95rem;
+    }
+
+    .contact-form textarea {
+        height: 100px;
+        resize: vertical;
+    }
+
+    .submit-btn {
+        width: 100%;
+        padding: 12px 20px;
+    }
+
+    footer {
+        padding: 30px 15px;
+        font-size: 0.75rem;
+    }
+
+    footer p {
+        font-size: 0.7rem;
+        line-height: 1.4;
+    }
+}
+
+@media (max-width: 480px) {
+    nav {
+        padding: 12px 2%;
+        width: 96%;
+    }
+
+    .logo-space {
+        padding: 4px 10px;
+        font-size: 0.9rem;
+        border: 1px solid var(--accent-cyan);
+    }
+
+    ul {
+        gap: 8px;
+    }
+
+    li a {
+        font-size: 0.75rem;
+        letter-spacing: 0.5px;
+    }
+
+    .hero {
+        height: 40vh;
+        padding: 10px;
+    }
+
+    .hero h1 {
+        font-size: 1.8rem;
+        letter-spacing: 4px;
+        margin-bottom: 10px;
+    }
+
+    .subtitle {
+        font-size: 0.9rem;
+    }
+
+    .status-tag {
+        font-size: 0.75rem;
+        padding: 6px 10px;
+    }
+
+    .content-block {
+        padding: 30px 4%;
+    }
+
+    .content-block h2 {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+    }
+
+    .card {
+        padding: 15px;
+        border-left: 3px solid var(--nasa-blue);
+    }
+
+    .card h3 {
+        font-size: 1rem;
+    }
+
+    .card p {
+        font-size: 0.85rem;
+    }
+
+    .dark-section {
+        padding: 30px 4%;
+    }
+
+    .dark-section h2 {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+    }
+
+    .spec-container {
+        padding: 15px;
+    }
+
+    .spec-item {
+        margin-bottom: 10px;
+        font-size: 0.8rem;
+    }
+
+    .innovations-container {
+        gap: 15px;
+    }
+
+    .innovation-card {
+        padding: 15px;
+    }
+
+    .innovation-card h3 {
+        font-size: 1rem;
+    }
+
+    .innovation-card p {
+        font-size: 0.85rem;
+    }
+
+    .testing-grid {
+        gap: 15px;
+    }
+
+    .data-box {
+        padding: 15px;
+        border: 2px solid var(--accent-cyan);
+    }
+
+    .data-box h4 {
+        font-size: 0.9rem;
+        margin: 0 0 8px 0;
+    }
+
+    .data-box p {
+        font-size: 0.8rem;
+    }
+
+    .team-member {
+        padding: 15px;
+        border-left: 3px solid var(--accent-cyan);
+    }
+
+    .team-member h4 {
+        font-size: 0.95rem;
+        margin: 0 0 5px 0;
+    }
+
+    .team-member p {
+        font-size: 0.8rem;
+    }
+
+    .contact-form {
+        padding: 10px 4%;
+    }
+
+    .contact-form h3 {
+        font-size: 1rem;
+    }
+
+    .form-group label {
+        font-size: 0.65rem;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+        padding: 8px;
+        font-size: 0.9rem;
+    }
+
+    .contact-form textarea {
+        height: 80px;
+    }
+
+    .submit-btn {
+        padding: 10px;
+        font-size: 0.8rem;
+    }
+
+    footer {
+        padding: 20px 10px;
+        font-size: 0.65rem;
+    }
+
+    footer p {
+        font-size: 0.6rem;
+        margin: 10px 0 0 0;
+    }
 }
