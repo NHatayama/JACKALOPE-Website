@@ -29,6 +29,33 @@ nav {
     gap: 15px;
 }
 
+a {
+    text-decoration: none;
+    position: relative;
+    display: inline-block;
+    color: inherit;
+}
+
+/* animated underline using a pseudo-element so it can be transitioned */
+a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -3px; /* adjust to match desired underline offset */
+    height: 2px; /* underline thickness */
+    background: currentColor; /* uses the link's color */
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 220ms ease;
+}
+
+a:hover::after,
+a:focus::after {
+    transform: scaleX(1);
+}
+
+
 .logo-space {
     font-family: 'JetBrains Mono', monospace;
     font-weight: bold;
