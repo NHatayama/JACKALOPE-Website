@@ -219,6 +219,120 @@ li a {
     margin: 15px 0;
 }
 
+/* Media gallery and lightbox styles */
+.media-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+    margin-top: 28px;
+    grid-auto-rows: 1fr; /* make rows equal height to avoid overlap */
+    align-items: start;
+}
+
+.media-category h3 {
+    margin: 0 0 8px 0;
+    color: var(--accent-cyan);
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+}
+
+.media-category-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+@media (max-width: 600px) {
+    .media-category-grid { grid-template-columns: 1fr; }
+}
+
+.media-box {
+    background: #1a1e2e;
+    padding: 0;
+    border: 2px solid var(--accent-cyan);
+    border-radius: 8px;
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+    min-height: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.media-inner { width: 100%; height: 100%; display:flex; align-items:center; justify-content:center; }
+
+.media-box img,
+.media-box video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    display: block;
+    background: #0b0d17;
+}
+
+/* ensure inner wrapper hides overflow so media can't leak out */
+.media-inner { overflow: hidden; box-sizing: border-box; }
+
+/* prevent boxes from forcing each other to overlap by ensuring min-width is respected */
+.media-box { min-width: 0; max-width: 100%; box-sizing: border-box; }
+
+/* Responsive adjustments to prevent overlap on narrow screens */
+@media (max-width: 900px) {
+    .media-gallery { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+    .media-box { min-height: 200px; }
+}
+
+@media (max-width: 600px) {
+    .media-gallery { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .media-box { min-height: 160px; }
+}
+
+@media (max-width: 380px) {
+    .media-gallery { grid-template-columns: 1fr; }
+    .media-box { min-height: 140px; }
+}
+
+.media-box .placeholder { color: var(--accent-cyan); padding: 8px 12px; }
+
+.media-box:hover { background: rgba(76, 201, 240, 0.06); box-shadow: 0 8px 20px rgba(76, 201, 240, 0.12); transform: translateY(-4px); }
+
+/* fullscreen lightbox */
+.lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 4000;
+    padding: 20px;
+}
+
+.lightbox.visible { display: flex; }
+
+.lightbox-img { max-width: 96%; max-height: 96%; border-radius: 6px; box-shadow: 0 12px 40px rgba(0,0,0,0.7); }
+
+.lightbox-close {
+    position: fixed;
+    top: 18px;
+    right: 18px;
+    background: rgba(255,255,255,0.06);
+    color: white;
+    border: 0;
+    font-size: 28px;
+    line-height: 1;
+    width: 44px;
+    height: 44px;
+    border-radius: 6px;
+    cursor: pointer;
+    z-index: 4100;
+}
+
+/* prevent page scroll while lightbox open */
+.no-scroll { overflow: hidden; }
+
 .content-block { padding: 100px 10%; }
 .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; }
 

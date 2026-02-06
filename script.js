@@ -158,3 +158,54 @@ document.querySelectorAll('.card, .data-box, .innovation-card, .team-member').fo
         if (window.innerWidth > 768) setExpanded(false);
     });
 })();
+
+// Lightbox: open media in fullscreen with close controls
+(function() {
+    const lightbox = document.getElementById('lightbox');
+    if (!lightbox) return;
+    const lightboxImg = lightbox.querySelector('.lightbox-img');
+    const closeBtn = lightbox.querySelector('.lightbox-close');
+
+    const openLightbox = (src, alt) => {
+        lightboxImg.src = src;
+        lightboxImg.alt = alt || '';
+        lightbox.classList.add('visible');
+        lightbox.setAttribute('aria-hidden', 'false');
+        document.documentElement.classList.add('no-scroll');
+        document.body.classList.add('no-scroll');
+    };
+
+    const closeLightbox = () => {
+        lightbox.classList.remove('visible');
+        lightbox.setAttribute('aria-hidden', 'true');
+        lightboxImg.src = '';
+        document.documentElement.classList.remove('no-scroll');
+        document.body.classList.remove('no-scroll');
+    };
+
+    // attach click handlers to media images
+    document.querySelectorAll('.media-box img, .media-box video').forEach(media => {
+        media.style.cursor = 'zoom-in';
+        media.addEventListener('click', (e) => {
+            const src = media.currentSrc || media.src;
+            const alt = media.alt || '';
+            openLightbox(src, alt);
+        });
+    });
+
+    // close button
+    closeBtn.addEventListener('click', closeLightbox);
+
+    // click outside image to close
+    lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox || e.target === lightboxImg) {
+            // if clicked the backdrop or the image itself (click image also closes)
+            closeLightbox();
+        }
+    });
+
+    // Escape key closes
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && lightbox.classList.contains('visible')) closeLightbox();
+    });
+})();

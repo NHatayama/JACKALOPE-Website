@@ -43,38 +43,57 @@
                 <p>Result: Screw loosening detected. Mitigation: Thread-locker application.</p>
             </div>
         </div>
-        <!-- Media gallery for images and video recordings -->
+        <!-- Media gallery for images and video recordings, organized by category -->
         <div class="media-gallery" aria-label="Drop test media gallery">
-            <div class="media-box" aria-label="Media 1">
-                <div class="media-inner">
-                    <div class="placeholder">Image / Video 1</div>
+
+            <div class="media-category">
+                <h3>Force Analysis</h3>
+                <div class="media-category-grid">
+                    <div class="media-box" aria-label="Forcegraph 1">
+                        <div class="media-inner">
+                            <img src="forcegraph1.png" alt="Force graph 1">
+                        </div>
+                    </div>
+                    <div class="media-box" aria-label="Forcegraph 2">
+                        <div class="media-inner">
+                            <img src="forcegraph2.png" alt="Force graph 2">
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="media-box" aria-label="Media 2">
-                <div class="media-inner">
-                    <div class="placeholder">Image / Video 2</div>
+
+            <div class="media-category">
+                <h3>Previous Iterations</h3>
+                <div class="media-category-grid">
+                    <div class="media-box" aria-label="Iteration 1">
+                        <div class="media-inner">
+                            <img src="iteration1.png" alt="Iteration 1">
+                        </div>
+                    </div>
+                    <div class="media-box" aria-label="Iteration 2">
+                        <div class="media-inner">
+                            <div class="placeholder">Iteration image 2</div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="media-box" aria-label="Media 3">
-                <div class="media-inner">
-                    <div class="placeholder">Image / Video 3</div>
+
+            <div class="media-category">
+                <h3>Video Trials</h3>
+                <div class="media-category-grid">
+                    <div class="media-box" aria-label="Video trial 1">
+                        <div class="media-inner">
+                            <div class="placeholder">Video 1</div>
+                        </div>
+                    </div>
+                    <div class="media-box" aria-label="Video trial 2">
+                        <div class="media-inner">
+                            <div class="placeholder">Video 2</div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="media-box" aria-label="Media 4">
-                <div class="media-inner">
-                    <div class="placeholder">Image / Video 4</div>
-                </div>
-            </div>
-            <div class="media-box" aria-label="Media 5">
-                <div class="media-inner">
-                    <div class="placeholder">Image / Video 5</div>
-                </div>
-            </div>
-            <div class="media-box" aria-label="Media 6">
-                <div class="media-inner">
-                    <div class="placeholder">Image / Video 6</div>
-                </div>
-            </div>
+
         </div>
     </section>
 
@@ -191,6 +210,11 @@
         </form>
         <p>&copy; 2026 JACKALOPE TEAM: Oscar N, Raine D, Vincent P, Derek A, Jaya D, Nabil H, Lawrence M</p>
     </footer>
+    <!-- Lightbox for viewing media fullscreen -->
+    <div id="lightbox" class="lightbox" aria-hidden="true">
+        <button class="lightbox-close" aria-label="Close image">×</button>
+        <img class="lightbox-img" src="" alt="Expanded media">
+    </div>
     <script src="script.js"></script>
 </body>
 </html>
