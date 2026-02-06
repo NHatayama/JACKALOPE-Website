@@ -10,10 +10,14 @@
 <body>
     <nav>
         <div class="logo-space"><a href="#hero" class="logo-link">JACKALOPE</a></div>
-        <ul>
-            <li><a href="#mission">Mission</a></li>
-            <li><a href="#engineering">Engineering</a></li>
+        <!-- hamburger/menu toggle for small screens -->
+        <button class="nav-toggle" aria-label="Open navigation" aria-expanded="false" aria-controls="main-nav">
+            <span class="hamburger"></span>
+        </button>
+        <ul id="main-nav">
             <li><a href="#testing">Testing</a></li>
+            <li><a href="#engineering">Engineering</a></li>
+            <li><a href="#mission">Mission</a></li>
             <li><a href="#team">Team</a></li>
         </ul>
     </nav>
@@ -21,10 +25,58 @@
     <header id="hero" class="hero">
         <div class="overlay">
             <h1>JACKALOPE</h1>
+            <p class="subtitle">(Hover over the text)</p>
             <p class="subtitle">Next-Generation Lunar Exploration Robot</p>
             <div class="status-tag">STATUS: CDR COMPLETE</div>
         </div>
     </header>
+
+ <section id="testing" class="content-block">
+        <h2>Drop Testing & Analysis</h2>
+        <div class="testing-grid">
+            <div class="data-box">
+                <h4>5 FT DROP</h4>
+                <p>Result: 1 Carbon Fiber piece snapped. Mitigation: Material reinforcement.</p>
+            </div>
+            <div class="data-box">
+                <h4>3 FT DROP</h4>
+                <p>Result: Screw loosening detected. Mitigation: Thread-locker application.</p>
+            </div>
+        </div>
+        <!-- Media gallery for images and video recordings -->
+        <div class="media-gallery" aria-label="Drop test media gallery">
+            <div class="media-box" aria-label="Media 1">
+                <div class="media-inner">
+                    <div class="placeholder">Image / Video 1</div>
+                </div>
+            </div>
+            <div class="media-box" aria-label="Media 2">
+                <div class="media-inner">
+                    <div class="placeholder">Image / Video 2</div>
+                </div>
+            </div>
+            <div class="media-box" aria-label="Media 3">
+                <div class="media-inner">
+                    <div class="placeholder">Image / Video 3</div>
+                </div>
+            </div>
+            <div class="media-box" aria-label="Media 4">
+                <div class="media-inner">
+                    <div class="placeholder">Image / Video 4</div>
+                </div>
+            </div>
+            <div class="media-box" aria-label="Media 5">
+                <div class="media-inner">
+                    <div class="placeholder">Image / Video 5</div>
+                </div>
+            </div>
+            <div class="media-box" aria-label="Media 6">
+                <div class="media-inner">
+                    <div class="placeholder">Image / Video 6</div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <section id="mission" class="content-block">
         <h2>Objectives</h2>
@@ -79,19 +131,6 @@
         </div>
     </section>
 
- <section id="testing" class="content-block">
-        <h2>Drop Testing & Analysis</h2>
-        <div class="testing-grid">
-            <div class="data-box">
-                <h4>5 FT DROP</h4>
-                <p>Result: 1 Carbon Fiber piece snapped. Mitigation: Material reinforcement.</p>
-            </div>
-            <div class="data-box">
-                <h4>3 FT DROP</h4>
-                <p>Result: Screw loosening detected. Mitigation: Thread-locker application.</p>
-            </div>
-        </div>
-    </section>
 
     <section id="team" class="content-block">
         <h2>Meet the Team</h2>

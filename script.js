@@ -30,3 +30,131 @@ document.querySelectorAll('.card, .data-box, .innovation-card, .team-member').fo
     element.style.transition = "all 0.6s ease-out";
     observer.observe(element);
 });
+
+// Per-letter tooltip for hero H1 (JACKALOPE): shows an acronym word above each letter on hover/focus
+(function() {
+    const heroHeading = document.querySelector('.hero .overlay h1');
+    if (!heroHeading) return;
+
+    const rawText = heroHeading.textContent.trim();
+    if (!rawText) return;
+
+    // Acronym words for each letter in JACKALOPE (by position)
+    const acronym = [
+        'Jumping',      // J
+        'Autonomous',   // A
+        'Celestial',    // C
+        'Kinetic',      // K
+        'Adaptive',     // A
+        'Lightweight',  // L
+        'Orbital',      // O
+        'Precision',    // P
+        'Explorer'      // E
+    ];
+
+    // create tooltip element appended to body
+    const tooltip = document.createElement('div');
+    tooltip.className = 'letter-tooltip';
+    tooltip.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(tooltip);
+
+    // clear the heading and rebuild with per-letter spans
+    heroHeading.innerHTML = '';
+    let activeSpan = null;
+    const TOOLTIP_OFFSET = 12; // px between top of letter and tooltip
+    Array.from(rawText).forEach((ch, idx) => {
+        const span = document.createElement('span');
+        span.className = 'hero-letter';
+        span.textContent = ch;
+        span.tabIndex = 0; // keyboard focusable
+
+        const meaning = acronym[idx] || (ch === ' ' ? '' : `Letter ${ch}`);
+        span.dataset.meaning = meaning;
+
+        const updateTooltipPosition = () => {
+            const rect = span.getBoundingClientRect();
+            const top = rect.top - TOOLTIP_OFFSET; // fixed viewport coordinate
+            const left = rect.left + rect.width / 2;
+            tooltip.style.left = `${left}px`;
+            tooltip.style.top = `${top}px`;
+        };
+
+        const show = () => {
+            if (!meaning) return;
+            activeSpan = span;
+            tooltip.textContent = `${ch} — ${meaning}`;
+            tooltip.setAttribute('aria-hidden', 'false');
+            updateTooltipPosition();
+            // use CSS class to animate from above into place
+            tooltip.classList.add('visible');
+        };
+
+        const hide = () => {
+            tooltip.classList.remove('visible');
+            tooltip.setAttribute('aria-hidden', 'true');
+            activeSpan = null;
+        };
+
+        span.addEventListener('mouseenter', show);
+        span.addEventListener('focus', show);
+        span.addEventListener('mouseleave', hide);
+        span.addEventListener('blur', hide);
+        span.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            show();
+            setTimeout(hide, 1400);
+        }, { passive: false });
+
+        heroHeading.appendChild(span);
+    });
+
+    // keep tooltip positioned above the active letter while scrolling
+    const onScroll = () => {
+        if (activeSpan && tooltip.classList.contains('visible')) {
+            // update position to track the letter in viewport coordinates
+            const rect = activeSpan.getBoundingClientRect();
+            const top = rect.top - TOOLTIP_OFFSET;
+            const left = rect.left + rect.width / 2;
+            tooltip.style.left = `${left}px`;
+            tooltip.style.top = `${top}px`;
+        }
+    };
+
+    // hide tooltip on resize (keep tooltip usable after scrolling)
+    const hideOnResize = () => { tooltip.classList.remove('visible'); tooltip.setAttribute('aria-hidden', 'true'); activeSpan = null; };
+    window.addEventListener('resize', hideOnResize);
+    window.addEventListener('scroll', onScroll, { passive: true });
+})();
+
+// Responsive nav toggle (hamburger)
+(function() {
+    const nav = document.querySelector('nav');
+    const toggle = document.querySelector('.nav-toggle');
+    const mainNav = document.getElementById('main-nav');
+    if (!nav || !toggle || !mainNav) return;
+
+    const setExpanded = (val) => {
+        toggle.setAttribute('aria-expanded', String(val));
+        if (val) nav.classList.add('open'); else nav.classList.remove('open');
+    };
+
+    toggle.addEventListener('click', () => {
+        const expanded = toggle.getAttribute('aria-expanded') === 'true';
+        setExpanded(!expanded);
+    });
+
+    // Close the menu when a nav link is clicked (useful on mobile)
+    mainNav.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => setExpanded(false));
+    });
+
+    // Close on Escape
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') setExpanded(false);
+    });
+
+    // Ensure menu closes when resizing to larger screens
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 768) setExpanded(false);
+    });
+})();

@@ -21,12 +21,67 @@ nav {
     display: flex;
     justify-content: space-between;
     padding: 20px 5%;
-    background: rgba(11, 13, 23, 0.9);
+    /* use a semi-transparent background so backdrop-filter can blur content behind the nav */
+    background: rgba(11, 13, 23, 0.35);
+    /* blur the content that sits behind the navigation bar */
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
     position: fixed;
     width: 90%;
     z-index: 1000;
     flex-wrap: wrap;
     gap: 15px;
+    transition: background 220ms ease, backdrop-filter 220ms ease;
+}
+
+/* hamburger / responsive nav styles */
+.nav-toggle {
+    display: none; /* shown on small screens */
+    background: transparent;
+    border: 0;
+    padding: 8px;
+    margin-left: 12px;
+    cursor: pointer;
+}
+
+.nav-toggle .hamburger,
+.nav-toggle .hamburger::before,
+.nav-toggle .hamburger::after {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: white;
+    border-radius: 2px;
+    position: relative;
+}
+
+.nav-toggle .hamburger::before,
+.nav-toggle .hamburger::after {
+    content: '';
+    position: absolute;
+    left: 0;
+}
+
+.nav-toggle .hamburger::before { top: -7px; }
+.nav-toggle .hamburger::after { top: 7px; }
+
+/* collapsed nav on small screens: hide the links until toggled */
+.nav-collapsed ul,
+.nav-collapsed #main-nav {
+    display: none;
+}
+
+/* when nav has .open, show the links stacked */
+nav.open #main-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 10px;
+    width: 100%;
+}
+
+nav.open #main-nav li a {
+    padding: 8px 0;
 }
 
 a {
@@ -76,6 +131,56 @@ a:focus::after {
 .logo-link:hover {
     color: white !important;
     transform: scale(1.05);
+}
+
+/* hero per-letter tooltip styles */
+.hero-letter {
+    display: inline-block;
+    padding: 0 4px;
+    line-height: 1;
+    cursor: default;
+}
+
+.hero-letter:focus {
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(76,201,240,0.08);
+    border-radius: 3px;
+}
+
+.letter-tooltip {
+    position: fixed;
+    left: 0;
+    top: 0;
+    /* start slightly higher so it can slide down into place */
+    transform: translate(-50%, -22px);
+    background: rgba(11,13,23,0.96);
+    color: #fff;
+    padding: 6px 10px;
+    font-size: 0.95rem;
+    border-radius: 6px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+    pointer-events: none;
+    z-index: 2500;
+    opacity: 0;
+    transition: opacity 160ms cubic-bezier(.2,.9,.3,1), transform 200ms cubic-bezier(.2,.9,.3,1);
+    white-space: nowrap;
+}
+
+.letter-tooltip.visible {
+    /* visible state: slightly lower so it appears to drop down */
+    transform: translate(-50%, -8px);
+    opacity: 1;
+}
+
+/* make hovered letter move up slightly to indicate activation */
+.hero-letter {
+    transition: transform 180ms cubic-bezier(.2,.9,.3,1);
+    transform: translateY(0);
+}
+
+.hero-letter:hover,
+.hero-letter:focus {
+    transform: translateY(-6px);
 }
 
 ul { 
@@ -172,6 +277,50 @@ li a {
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 30px;
     margin-top: 40px;
+}
+
+/* Media gallery for testing section */
+.media-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin-top: 28px;
+}
+
+.media-box {
+    /* match the look-and-feel of other data boxes in the section */
+    background: #1a1e2e;
+    padding: 0;
+    border: 2px solid var(--accent-cyan);
+    border-radius: 8px;
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.media-inner { width: 100%; height: 100%; }
+
+.media-box img,
+.media-box video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.media-box .placeholder {
+    color: var(--accent-cyan);
+    font-size: 0.95rem;
+    padding: 8px 12px;
+}
+
+.media-box:hover {
+    background: rgba(76, 201, 240, 0.06);
+    box-shadow: 0 8px 20px rgba(76, 201, 240, 0.12);
+    transform: translateY(-4px);
 }
 
 .data-box {
@@ -353,6 +502,12 @@ footer p {
         padding: 0;
     }
 
+    /* show hamburger on small screens and initially hide nav list */
+    .nav-toggle { display: block; }
+    nav { position: relative; }
+    #main-nav { display: none; }
+
+
     li a {
         margin-left: 0;
         font-size: 0.85rem;
@@ -433,15 +588,18 @@ footer p {
         font-size: 1rem;
     }
 
+    /* keep team members in a responsive grid instead of stacking into one column */
     .team-grid {
-        flex-direction: column;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
         gap: 15px;
-        align-items: stretch;
+        align-items: start;
+        width: 100%;
     }
 
     .team-member {
         padding: 20px;
-        min-width: auto;
+        width: auto;
     }
 
     .team-member h4 {
