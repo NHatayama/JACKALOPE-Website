@@ -333,6 +333,37 @@ li a {
 /* prevent page scroll while lightbox open */
 .no-scroll { overflow: hidden; }
 
+/* media analysis text under each box */
+.media-analysis {
+    padding: 10px 12px;
+    color: var(--lunar-grey);
+    font-size: 0.95rem;
+    background: transparent;
+    border-top: 1px solid rgba(255,255,255,0.03);
+}
+
+/* Lightbox layout: show analysis next to image on wide screens, stacked on narrow */
+.lightbox-content {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    max-width: 1200px;
+}
+
+.lightbox-analysis {
+    max-width: 420px;
+    color: var(--lunar-grey);
+    font-size: 1rem;
+    line-height: 1.45;
+    background: transparent;
+}
+
+@media (max-width: 900px) {
+    .lightbox-content { flex-direction: column; }
+    .lightbox-analysis { max-width: 92%; }
+    .lightbox-img { max-width: 92%; max-height: 60vh; }
+}
+
 .content-block { padding: 100px 10%; }
 .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; }
 

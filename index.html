@@ -35,12 +35,16 @@
         <h2>Drop Testing & Analysis</h2>
         <div class="testing-grid">
             <div class="data-box">
-                <h4>5 FT DROP</h4>
-                <p>Result: 1 Carbon Fiber piece snapped. Mitigation: Material reinforcement.</p>
+                <h4>Summary of the electronics for the Robot:</h4>
+                <p>The program runs on a loop where the board is constantly checking the position of the board, indicating proper orientation for launch. If the robot is on its side, the board will indicate an orientation error via a LED located on the top of the robot. However, if the orientation is correct the motor will begin winding the fishing line until it approaches the release mechanism. At which point, the board will check its position one last time and do the final winding to initiate the release, sending the robot flying.</p>
             </div>
             <div class="data-box">
-                <h4>3 FT DROP</h4>
-                <p>Result: Screw loosening detected. Mitigation: Thread-locker application.</p>
+                <h4>Summary of the mechanics for the Robot:</h4>
+                <p>The program runs on a loop where the board is constantly checking the position of the board, indicating proper orientation for launch. If the robot is on its side, the board will indicate an orientation error via a LED located on the top of the robot. However, if the orientation is correct the motor will begin winding the fishing line until it approaches the release mechanism. At which point, the board will check its position one last time and do the final winding to initiate the release, sending the robot flying.</p>
+            </div>
+            <div class="data-box">
+                <h4>Subsequent Jump Analysis:</h4>
+                <p>The program runs on a loop where the board is constantly checking the position of the board, indicating proper orientation for launch. If the robot is on its side, the board will indicate an orientation error via a LED located on the top of the robot. However, if the orientation is correct the motor will begin winding the fishing line until it approaches the release mechanism. At which point, the board will check its position one last time and do the final winding to initiate the release, sending the robot flying.</p>
             </div>
         </div>
         <!-- Media gallery for images and video recordings, organized by category -->
@@ -53,11 +57,13 @@
                         <div class="media-inner">
                             <img src="forcegraph1.png" alt="Force graph 1">
                         </div>
+                        <div class="media-analysis">Analysis: Peak impact at timestamp 0.42s, high lateral forces observed on left strut.</div>
                     </div>
                     <div class="media-box" aria-label="Forcegraph 2">
                         <div class="media-inner">
                             <img src="forcegraph2.png" alt="Force graph 2">
                         </div>
+                        <div class="media-analysis">Analysis: Repeated impulses indicate damping required; consider Increasing damping coefficient by 15%.</div>
                     </div>
                 </div>
             </div>
@@ -69,11 +75,13 @@
                         <div class="media-inner">
                             <img src="iteration1.png" alt="Iteration 1">
                         </div>
+                        <div class="media-analysis">Iteration notes: Prototype 1 - base chassis cracked at joint A. Fix: reinforce with fillet and 2mm carbon plate.</div>
                     </div>
                     <div class="media-box" aria-label="Iteration 2">
                         <div class="media-inner">
                             <div class="placeholder">Iteration image 2</div>
                         </div>
+                        <div class="media-analysis">Iteration notes: Placeholder for iteration 2 analysis.</div>
                     </div>
                 </div>
             </div>
@@ -85,11 +93,13 @@
                         <div class="media-inner">
                             <div class="placeholder">Video 1</div>
                         </div>
+                        <div class="media-analysis">Trial notes: Video 1 - motor stutter on start, investigate ESC calibration.</div>
                     </div>
                     <div class="media-box" aria-label="Video trial 2">
                         <div class="media-inner">
                             <div class="placeholder">Video 2</div>
                         </div>
+                        <div class="media-analysis">Trial notes: Video 2 - jump trajectory stable; consider increasing spring preload.</div>
                     </div>
                 </div>
             </div>
@@ -102,15 +112,15 @@
         <div class="grid">
             <div class="card">
                 <h3>Performance</h3>
-                <p>Jumps 3ft to 10ft on Earth, simulating up to 60ft lunar leaps.</p>
+                <p>Jumps 3ft to 10ft on Earth, simulating up to 60ft lunar leaps on the moon.</p>
             </div>
             <div class="card">
                 <h3>Intelligence</h3>
-                <p>Autonomous operation, wireless image transmission, and self-resetting.</p>
+                <p>Autonomous operation, wireless image transmission, and self-resetting. All allow for the operator to set the robot down, step away and capture a wide-view real time video of the lunar surface.</p>
             </div>
             <div class="card">
                 <h3>Durability</h3>
-                <p>Designed for repeated lunar impacts and lunar traversal.</p>
+                <p>Designed for repeated lunar impacts, extreme temperature variations, and operations in harsh lunar dust.</p>
             </div>
         </div>
     </section>
@@ -213,7 +223,10 @@
     <!-- Lightbox for viewing media fullscreen -->
     <div id="lightbox" class="lightbox" aria-hidden="true">
         <button class="lightbox-close" aria-label="Close image">×</button>
-        <img class="lightbox-img" src="" alt="Expanded media">
+        <div class="lightbox-content">
+            <img class="lightbox-img" src="" alt="Expanded media">
+            <div class="lightbox-analysis" aria-live="polite"></div>
+        </div>
     </div>
     <script src="script.js"></script>
 </body>

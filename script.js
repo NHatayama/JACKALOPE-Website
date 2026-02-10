@@ -42,13 +42,13 @@ document.querySelectorAll('.card, .data-box, .innovation-card, .team-member').fo
     // Acronym words for each letter in JACKALOPE (by position)
     const acronym = [
         'Jumping',      // J
-        'Autonomous',   // A
-        'Celestial',    // C
+        'Autonomously',   // A
+        'Controlled',    // C
         'Kinetic',      // K
-        'Adaptive',     // A
-        'Lightweight',  // L
-        'Orbital',      // O
-        'Precision',    // P
+        'Aerial',     // A
+        'Lunar',  // L
+        'Optical',      // O
+        'Polar',    // P
         'Explorer'      // E
     ];
 
@@ -82,7 +82,8 @@ document.querySelectorAll('.card, .data-box, .innovation-card, .team-member').fo
         const show = () => {
             if (!meaning) return;
             activeSpan = span;
-            tooltip.textContent = `${ch} — ${meaning}`;
+            // show only the meaning word (no leading letter)
+            tooltip.textContent = meaning;
             tooltip.setAttribute('aria-hidden', 'false');
             updateTooltipPosition();
             // use CSS class to animate from above into place
@@ -164,11 +165,13 @@ document.querySelectorAll('.card, .data-box, .innovation-card, .team-member').fo
     const lightbox = document.getElementById('lightbox');
     if (!lightbox) return;
     const lightboxImg = lightbox.querySelector('.lightbox-img');
+    const lightboxAnalysis = lightbox.querySelector('.lightbox-analysis');
     const closeBtn = lightbox.querySelector('.lightbox-close');
 
-    const openLightbox = (src, alt) => {
+    const openLightbox = (src, alt, analysisHtml) => {
         lightboxImg.src = src;
         lightboxImg.alt = alt || '';
+        lightboxAnalysis.innerHTML = analysisHtml || '';
         lightbox.classList.add('visible');
         lightbox.setAttribute('aria-hidden', 'false');
         document.documentElement.classList.add('no-scroll');
@@ -179,17 +182,21 @@ document.querySelectorAll('.card, .data-box, .innovation-card, .team-member').fo
         lightbox.classList.remove('visible');
         lightbox.setAttribute('aria-hidden', 'true');
         lightboxImg.src = '';
+        lightboxAnalysis.innerHTML = '';
         document.documentElement.classList.remove('no-scroll');
         document.body.classList.remove('no-scroll');
     };
 
-    // attach click handlers to media images
-    document.querySelectorAll('.media-box img, .media-box video').forEach(media => {
-        media.style.cursor = 'zoom-in';
-        media.addEventListener('click', (e) => {
-            const src = media.currentSrc || media.src;
-            const alt = media.alt || '';
-            openLightbox(src, alt);
+    // attach click handlers to the whole media box (so clicking anywhere opens)
+    document.querySelectorAll('.media-box').forEach(box => {
+        box.style.cursor = 'zoom-in';
+        box.addEventListener('click', (e) => {
+            // prefer image or video src inside the box
+            const media = box.querySelector('img, video');
+            const src = media ? (media.currentSrc || media.src) : null;
+            const alt = media ? (media.alt || '') : '';
+            const analysisHtml = box.querySelector('.media-analysis') ? box.querySelector('.media-analysis').innerHTML : '';
+            if (src) openLightbox(src, alt, analysisHtml);
         });
     });
 
