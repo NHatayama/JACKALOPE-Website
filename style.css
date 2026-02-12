@@ -9,6 +9,8 @@ html {
     scroll-behavior: smooth;
 }
 
+/* (removed global scroll lock) */
+
 body {
     margin: 0;
     background-color: var(--space-black);
@@ -200,13 +202,65 @@ li a {
 
 .hero {
     height: 80vh;
-    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('placeholder-moon.jpg');
+    /* lunar surface background - using a public-domain NASA image by default. Replace with a local file if you prefer. */
+    /* overlay reduced so lunar detail shows through more (not just black) */
+    background: linear-gradient(rgba(0,0,0,0.28), rgba(0,0,0,0.28)), url('https://www.nasa.gov/sites/default/files/thumbnails/image/as11-44-6550.jpg');
     background-size: cover;
+    background-position: center center;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
+    position: relative; /* establish containing block for absolute stars */
 }
+
+.overlay { position: relative; z-index: 2; }
+
+/* shooting star animation */
+.shooting-stars { position: absolute; inset: 0; pointer-events: none; z-index: 1; overflow: visible; }
+.shooting-stars .star {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: linear-gradient(90deg, #fff, rgba(255,255,255,0.7));
+    border-radius: 50%;
+    transform: translate(-50%, -50%) scale(0.8);
+    filter: drop-shadow(0 0 6px rgba(255,255,255,0.9));
+    opacity: 0;
+}
+
+/* background sparkling stars (static, twinkling) */
+.shooting-stars .bg-stars { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.shooting-stars .bg-star { position: absolute; width: 2px; height: 2px; border-radius: 50%; background: rgba(255,255,255,0.9); box-shadow: 0 0 6px rgba(255,255,255,0.6); opacity: 0.9; z-index: 0; transform: translate(-50%, -50%); }
+.shooting-stars .bg-star.small { width:1px; height:1px; opacity:0.6; box-shadow:none; }
+.shooting-stars .bg-star.medium { width:2px; height:2px; opacity:0.85; }
+.shooting-stars .bg-star.large { width:3px; height:3px; opacity:1; box-shadow: 0 0 8px rgba(255,255,255,0.9); }
+
+@keyframes twinkle {
+  0% { opacity: 0.2; transform: translate(-50%, -50%) scale(0.9); }
+  50% { opacity: 1; transform: translate(-50%, -50%) scale(1.05); }
+  100% { opacity: 0.2; transform: translate(-50%, -50%) scale(0.9); }
+}
+
+/* The star movement is handled in JavaScript. Base styles for star core and tail are below. */
+.shooting-stars .star { position: absolute; pointer-events: none; will-change: transform, opacity; z-index: 2; }
+.shooting-stars .star .core {
+    width: 4px; height: 4px; border-radius: 50%;
+    background: linear-gradient(90deg, #fff, rgba(255,255,255,0.95));
+    box-shadow: 0 0 6px rgba(255,255,255,0.95);
+    transform: translate(-50%, -50%);
+    position: absolute; left: 0; top: 0;
+}
+.shooting-stars .star .tail {
+    position: absolute; left: 0; top: 50%; height: 2px; transform-origin: left center;
+    /* tail starts bright at the core and fades outward */
+    background: linear-gradient(90deg, rgba(255,255,255,0.9), rgba(255,255,255,0.0));
+    filter: blur(1.2px);
+    opacity: 0.0;
+    z-index: 1;
+}
+/* ensure the core sits above bg-stars but below overlay text */
+.shooting-stars .star .core { z-index: 3; }
 
 .hero h1 { 
     font-size: 5rem; 
