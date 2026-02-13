@@ -47,26 +47,10 @@
         </div>
     </header>
 
- <section id="testing" class="content-block">
+    <section id="testing" class="content-block">
         <h2>Drop Testing & Analysis</h2>
         <div class="testing-grid">
-            <div class="data-box">
-                <h4>Summary of the electronics for the Robot:</h4>
-                <p>We created a program, using the waveshare's IMU, to check the orientation of the board before and after launch, ensuring the robot is in the upright position and ready for a second launch. In short, the program runs on a loop where the board checks the orientation before winding begins, then right before the final wind to launch the robot. If the orientation isn't correct, an LED will signal the error and the robot won't launch. This protects the robot from launching in any unfavorable direction without the operaters perogative. </p>
-            </div>
-            <div class="data-box">
-                <h4>Summary of the mechanics for the Robot:</h4>
-                <p>Carbon fiber strips are attached to a central point by springs
-A motor in the top spools fishing line, which compresses the robot
-Once compressed, a switch is triggered, rapidly unspooling the line
-The release of tension collected within the carbon fiber and springs, due to the spooling of the motor, cause the robot to jump
-Rods attached to the carbon fiber spread outwards as the robot compresses
-These rods push the robot upright prior to jumping</p>
-            </div>
-            <div class="data-box">
-                <h4>Subsequent Jump Analysis:</h4>
-                <p></p>
-            </div>
+            <!-- Summary boxes moved to Engineering section per design; testing retains media gallery and detailed analyses -->
         </div>
         <!-- Media gallery for images and video recordings, organized by category -->
         <div class="media-gallery" aria-label="Drop test media gallery">
@@ -154,6 +138,21 @@ These rods push the robot upright prior to jumping</p>
             </div>
             <div class="spec-item">
                 <strong>Mechanical: </strong> Carbon Fiber, Springs, 3D Printed ABS Housing, Aluminum Fasteners
+        </div>
+        <!-- Moved summary boxes from Testing into Engineering for better grouping with materials/specs -->
+        <div class="summary-grid testing-grid" style="margin-top:28px;">
+            <div class="data-box">
+                <h4>Summary of the electronics for the Robot:</h4>
+                <p>We created a program, using the Waveshare IMU, to check the orientation of the board before and after launch, ensuring the robot is upright and ready for launch. The board checks orientation before winding begins and immediately before the final wind. If orientation isn't correct, an LED signals an error and launch is prevented to protect the robot.</p>
+            </div>
+            <div class="data-box">
+                <h4>Summary of the mechanics for the Robot:</h4>
+                <p>Carbon fiber strips attach to a central hub via springs. A motor spools fishing line, compressing the robot. When a release switch triggers, the stored energy in the springs and carbon fiber launches the robot; rods extend to help reorient the chassis upright prior to jump.</p>
+            </div>
+            <div class="data-box">
+                <h4>Subsequent Jump Analysis:</h4>
+                <p>Initial tests show consistent compression and release sequences. Further instrumentation will quantify peak forces and post-impact behavior to inform damping and reinforcement choices for future iterations.</p>
+            </div>
         </div>
     </section>
 

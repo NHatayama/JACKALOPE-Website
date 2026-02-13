@@ -148,31 +148,57 @@ a:focus::after {
     gap: 8px;
 }
 
-/* small logo image in the nav to the left of the site name */
+/* Keep nav favicon/logo small and fixed so it doesn't inherit global img scaling */
 .nav-logo {
     width: 34px;
     height: 34px;
+    max-width: 34px;
+    max-height: 34px;
     object-fit: contain;
-    margin-right: 10px;
     display: inline-block;
 }
 
-/* make the logo link content centered and remove the animated underline for the logo */
-.logo-link {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    cursor: pointer;
+/* small logo image in the nav to the left of the site name */
+.media-box {
+    background: #1a1e2e;
+    padding: 0;
+    border: 2px solid var(--accent-cyan);
+    border-radius: 8px;
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+    min-height: 320px; /* expanded thumbnails */
+    display: flex;
+    flex-direction: column; /* stack image above analysis */
+    align-items: stretch;
+    justify-content: flex-start;
     transition: all 0.3s ease;
-    color: var(--accent-cyan) !important;
+}
+.media-inner { width: 100%; height: 100%; display:flex; align-items:center; justify-content:center; flex: 1 1 auto; }
+
+.media-box img,
+.media-box video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* expand to fill the box */
+    object-position: center;
+    display: block;
+    background: #0b0d17;
 }
 
-.logo-link:hover {
-    color: white !important;
-    transform: scale(1.05);
+/* Shorten the visible analysis text so the image preview gets more vertical space. */
+.media-analysis {
+    padding: 8px 10px;
+    font-size: 0.9rem;
+    line-height: 1.3;
+    color: #cfd8dd;
+    background: transparent;
+    max-height: 3.2rem; /* approx 2 lines */
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
 }
-
 /* hero per-letter tooltip styles */
 .hero-letter {
     display: inline-block;
@@ -346,7 +372,7 @@ li a {
     border-radius: 8px;
     overflow: hidden;
     aspect-ratio: 16 / 9;
-    min-height: 220px;
+    min-height: 320px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -359,7 +385,7 @@ li a {
 .media-box video {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
     object-position: center;
     display: block;
     background: #0b0d17;
@@ -374,17 +400,17 @@ li a {
 /* Responsive adjustments to prevent overlap on narrow screens */
 @media (max-width: 900px) {
     .media-gallery { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
-    .media-box { min-height: 200px; }
+    .media-box { min-height: 260px; }
 }
 
 @media (max-width: 600px) {
     .media-gallery { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-    .media-box { min-height: 160px; }
+    .media-box { min-height: 200px; }
 }
 
 @media (max-width: 380px) {
     .media-gallery { grid-template-columns: 1fr; }
-    .media-box { min-height: 140px; }
+    .media-box { min-height: 160px; }
 }
 
 .media-box .placeholder { color: var(--accent-cyan); padding: 8px 12px; }
