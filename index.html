@@ -117,7 +117,7 @@
         <div class="grid">
             <div class="card">
                 <h3>Performance</h3>
-                <p>Jumps 3ft to 10ft on Earth, simulating up to 60ft lunar leaps on the moon.</p>
+                <p> Continuously jumps 3ft to 10ft on Earth, simulating up to 60ft lunar leaps on the moon.</p>
             </div>
             <div class="card">
                 <h3>Intelligence</h3>
@@ -131,27 +131,23 @@
     </section>
 
     <section id="engineering" class="dark-section">
-        <h2>Materials</h2>
+        <h2> Key Materials & How it Works</h2>
         <div class="spec-container">
             <div class="spec-item">
-                <strong>Electronics: </strong><br>Waveshare General Driver Board,<br> ESP32-CAM,<br> OV2640 Camera Module 140 Degree Wide Angle Lens,<br> Tattu 11.1V 450mAh 3S LiPo Battery Pack 45C,
+                <strong>Electronics: </strong><br>Waveshare General Driver Board,<br> ESP32-CAM,<br> OV2640 Camera Module 140 Degree Wide Angle Lens,<br> Tattu 11.1V 450mAh 3S LiPo Battery Pack 45C,<br>mini high torque motor
             </div>
             <div class="spec-item">
-                <strong>Mechanical: </strong> Carbon Fiber, Springs, 3D Printed ABS Housing, Aluminum Fasteners
+                <strong>Mechanical: </strong> <br>Carbon Fiber, <br>Springs, <br>3D Printed ABS Housing, <br>Aluminum Fasteners,<br> support rods
         </div>
         <!-- Moved summary boxes from Testing into Engineering for better grouping with materials/specs -->
         <div class="summary-grid testing-grid" style="margin-top:28px;">
             <div class="data-box">
                 <h4>Summary of the electronics for the Robot:</h4>
-                <p>We created a program, using the Waveshare IMU, to check the orientation of the board before and after launch, ensuring the robot is upright and ready for launch. The board checks orientation before winding begins and immediately before the final wind. If orientation isn't correct, an LED signals an error and launch is prevented to protect the robot.</p>
+                <p>We created a program, using the Waveshare IMU, to check the orientation of the board before and after launch, ensuring the robot is upright and ready for launch. The board checks orientation before winding begins and immediately before the final wind and button initation. If orientation isn't correct, an LED signals an error and launch is prevented to protect the robot.</p>
             </div>
             <div class="data-box">
                 <h4>Summary of the mechanics for the Robot:</h4>
-                <p>Carbon fiber strips attach to a central hub via springs. A motor spools fishing line, compressing the robot. When a release switch triggers, the stored energy in the springs and carbon fiber launches the robot; rods extend to help reorient the chassis upright prior to jump.</p>
-            </div>
-            <div class="data-box">
-                <h4>Subsequent Jump Analysis:</h4>
-                <p>Initial tests show consistent compression and release sequences. Further instrumentation will quantify peak forces and post-impact behavior to inform damping and reinforcement choices for future iterations.</p>
+                <p>We used carbon fiber strips and springs to attach the central hub. A motor spools fishing line, compressing the robot. Then, when a release switch triggers, the stored energy in the springs and carbon fiber launch the robot; rods extend when compressed to help reorient the chassis to upright prior to jumping.</p>
             </div>
         </div>
     </section>
@@ -163,19 +159,23 @@
         <div class="innovations-container">
             <div class="innovation-card">
                 <h3>Spring Mechanism</h3>
-                <p>Carbon fiber springs do good lorem</p>
+                <p>Six springs indiivdually attached to the ineriror of the carbon fiber, all connecting back to a central disk that ensures equal force distribution.</p>
             </div>
             <div class="innovation-card">
                 <h3>Self-Righting</h3>
-                <p>Integration with Waveshare General Driver Board accelerometer and built in IMU allows for autonomous self-righting after each jump.</p>
+                <p>Several righting rods attached to the exterior of the carbon fiber that push agains the ground and right the robot when fully compressed.</p>
+            </div>
+            <div class="innovation-card">
+                <h3>Gear Box</h3>
+                <p>Printed gear box with a 20:1 gear ratio, significantly increasing the torque on our motor.</p>
             </div>
             <div class="innovation-card">
                 <h3>Wireless Control</h3>
-                <p>Real-time image transmission located on the bottm of the robot wiht a 120 degree field-of-view allows for a clear view of the lunar surface.</p>
+                <p>Completely operates from a driver board embedded in the top of the robot. Image is transmitted via bluetooth or a local internet server, which allows seamless video capture.  </p>
             </div>
             <div class="innovation-card">
                 <h3>Impact Resistance</h3>
-                <p>Multi-layered shock absorption handles extreme lunar terrain.</p>
+                <p>Rigid PLA that can withstand high impacts on rough surfaces, which would have more than enough strength for the lunar surface.</p>
             </div>
         </div>
     </section>
