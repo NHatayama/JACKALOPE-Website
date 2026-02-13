@@ -9,6 +9,29 @@ html {
     scroll-behavior: smooth;
 }
 
+/* Prevent horizontal scrolling site-wide. Some elements may overflow on small screens; these rules
+   enforce responsive sizing and disable horizontal scroll while preserving touch momentum. */
+html, body {
+    overflow-x: hidden;
+}
+
+/* use border-box everywhere to avoid accidental overflow from width+padding calculations */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+/* Make media responsive to avoid creating horizontal scroll */
+img, picture, video, iframe {
+    max-width: 100%;
+    height: auto;
+    display: inline-block;
+}
+
+/* enable native momentum scrolling on iOS/Android */
+body {
+    -webkit-overflow-scrolling: touch;
+}
+
 /* (removed global scroll lock) */
 
 body {
@@ -227,6 +250,7 @@ li a {
     justify-content: center;
     text-align: center;
     position: relative; /* establish containing block for absolute stars */
+    overflow: hidden; /* clip animated stars/background so they don't cause horizontal scroll */
 }
 
 .overlay { position: relative; z-index: 2; }

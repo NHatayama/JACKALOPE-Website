@@ -52,15 +52,20 @@
         <div class="testing-grid">
             <div class="data-box">
                 <h4>Summary of the electronics for the Robot:</h4>
-                <p>The program runs on a loop where the board is constantly checking the position of the board, indicating proper orientation for launch. If the robot is on its side, the board will indicate an orientation error via a LED located on the top of the robot. However, if the orientation is correct the motor will begin winding the fishing line until it approaches the release mechanism. At which point, the board will check its position one last time and do the final winding to initiate the release, sending the robot flying.</p>
+                <p>We created a program, using the waveshare's IMU, to check the orientation of the board before and after launch, ensuring the robot is in the upright position and ready for a second launch. In short, the program runs on a loop where the board checks the orientation before winding begins, then right before the final wind to launch the robot. If the orientation isn't correct, an LED will signal the error and the robot won't launch. This protects the robot from launching in any unfavorable direction without the operaters perogative. </p>
             </div>
             <div class="data-box">
                 <h4>Summary of the mechanics for the Robot:</h4>
-                <p>The program runs on a loop where the board is constantly checking the position of the board, indicating proper orientation for launch. If the robot is on its side, the board will indicate an orientation error via a LED located on the top of the robot. However, if the orientation is correct the motor will begin winding the fishing line until it approaches the release mechanism. At which point, the board will check its position one last time and do the final winding to initiate the release, sending the robot flying.</p>
+                <p>Carbon fiber strips are attached to a central point by springs
+A motor in the top spools fishing line, which compresses the robot
+Once compressed, a switch is triggered, rapidly unspooling the line
+The release of tension collected within the carbon fiber and springs, due to the spooling of the motor, cause the robot to jump
+Rods attached to the carbon fiber spread outwards as the robot compresses
+These rods push the robot upright prior to jumping</p>
             </div>
             <div class="data-box">
                 <h4>Subsequent Jump Analysis:</h4>
-                <p>The program runs on a loop where the board is constantly checking the position of the board, indicating proper orientation for launch. If the robot is on its side, the board will indicate an orientation error via a LED located on the top of the robot. However, if the orientation is correct the motor will begin winding the fishing line until it approaches the release mechanism. At which point, the board will check its position one last time and do the final winding to initiate the release, sending the robot flying.</p>
+                <p></p>
             </div>
         </div>
         <!-- Media gallery for images and video recordings, organized by category -->
@@ -73,13 +78,13 @@
                         <div class="media-inner">
                             <img class="lazy" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="forcegraph1.png" alt="Force graph 1" loading="lazy">
                         </div>
-                        <div class="media-analysis">Analysis: Peak impact at timestamp 0.42s, high lateral forces observed on left strut.</div>
+                        <div class="media-analysis">Analysis: The force vs. time graph shows that over 8 seconds, the force required to compress the robot ranges between 60 to 80 newtons. Converting the units of newtons to kg/cm, the forced required is approximately 6.12 kg/cm to 8.16 kg/cm. After attaining the requried forces in kg/cm, we determined that the motor/winding system needs to withstand at least 9 kg/cm, which we used to create a gearbox to increase the torque on our motor.</div>
                     </div>
                     <div class="media-box" aria-label="Forcegraph 2">
                         <div class="media-inner">
                             <img class="lazy" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="forcegraph2.png" alt="Force graph 2" loading="lazy">
                         </div>
-                        <div class="media-analysis">Analysis: Repeated impulses indicate damping required; consider Increasing damping coefficient by 15%.</div>
+                        <div class="media-analysis">Analysis: Other trials of our force vs. time graph showed similar results, which confirmed our need for a gearbox system to increase the torque on our motor, resulting in the compression required to launch the robot.</div>
                     </div>
                 </div>
             </div>
@@ -91,7 +96,7 @@
                         <div class="media-inner">
                             <img class="lazy" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="iteration1.png" alt="Iteration 1" loading="lazy">
                         </div>
-                        <div class="media-analysis">Iteration notes: Prototype 1 - base chassis cracked at joint A. Fix: reinforce with fillet and 2mm carbon plate.</div>
+                        <div class="media-analysis">Iteration notes: One of our very first iterations of the robot. The carbon fiber strips and general idea for the mechanics have laregly stayed the same. However, we've updated our self-righting system to be more mechnical and practical, while increasing the overal complexity of the robot.</div>
                     </div>
                     <div class="media-box" aria-label="Iteration 2">
                         <div class="media-inner">
