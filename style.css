@@ -121,13 +121,28 @@ a:focus::after {
     display: flex;
     align-items: center;
     justify-content: center;
+    text-align: center; /* ensure text inside centers */
+    gap: 8px;
 }
 
+/* small logo image in the nav to the left of the site name */
+.nav-logo {
+    width: 34px;
+    height: 34px;
+    object-fit: contain;
+    margin-right: 10px;
+    display: inline-block;
+}
+
+/* make the logo link content centered and remove the animated underline for the logo */
 .logo-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
     cursor: pointer;
     transition: all 0.3s ease;
     color: var(--accent-cyan) !important;
-    text-decoration: none !important;
 }
 
 .logo-link:hover {
@@ -728,10 +743,6 @@ footer p {
         font-size: 1rem;
     }
 
-    .status-tag {
-        font-size: 0.85rem;
-        padding: 8px 12px;
-    }
 
     .content-block {
         padding: 50px 5%;
@@ -889,10 +900,6 @@ footer p {
         font-size: 0.9rem;
     }
 
-    .status-tag {
-        font-size: 0.75rem;
-        padding: 6px 10px;
-    }
 
     .content-block {
         padding: 30px 4%;

@@ -13,6 +13,29 @@ document.querySelectorAll('nav a, .logo-link').forEach(anchor => {
     });
 });
 
+// Lazy-load images in media gallery to reduce initial server requests
+(function() {
+    if (!('IntersectionObserver' in window)) return; // graceful fallback - browser will load images normally
+    const lazyImgs = document.querySelectorAll('img.lazy');
+    if (!lazyImgs.length) return;
+    const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const img = entry.target;
+                const src = img.dataset.src;
+                if (src) {
+                    img.src = src;
+                    img.classList.remove('lazy');
+                    img.removeAttribute('data-src');
+                }
+                obs.unobserve(img);
+            }
+        });
+    }, { rootMargin: '200px 0px' });
+
+    lazyImgs.forEach(i => observer.observe(i));
+})();
+
 // Scroll Reveal Effect for technical Spec Cards
 const observerOptions = { threshold: 0.2 };
 const observer = new IntersectionObserver((entries) => {
@@ -35,6 +58,15 @@ document.querySelectorAll('.card, .data-box, .innovation-card, .team-member').fo
 (function() {
     const heroHeading = document.querySelector('.hero .overlay h1');
     if (!heroHeading) return;
+
+    // Disable per-letter tooltips on touch devices or small screens for performance/usability
+    const prefersNoHover = (window.matchMedia && (window.matchMedia('(hover: none)').matches || window.matchMedia('(pointer: coarse)').matches));
+    const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints && navigator.maxTouchPoints > 0);
+    const smallScreen = window.innerWidth && window.innerWidth < 768;
+    if (prefersNoHover || isTouch || smallScreen) {
+        // leave the heading text as-is (no per-letter spans)
+        return;
+    }
 
     const rawText = heroHeading.textContent.trim();
     if (!rawText) return;
@@ -217,16 +249,14 @@ document.querySelectorAll('.card, .data-box, .innovation-card, .team-member').fo
     });
 })();
 
-/* Shooting stars - managed via JS so stars and their streaks line up precisely.
-   The script dynamically creates star elements (core + tail) and animates them
-   by transitioning transforms and opacity. This gives us precise control over
-   timings, positions and ensures tails follow the star path exactly. */
+/* Shooting stars — pooled spawner implementation to minimize DOM allocations and timers.
+   This keeps the same visual behavior but reuses a fixed pool of star DOM nodes.
+*/
 (function() {
     const container = document.querySelector('.shooting-stars');
     if (!container) return;
 
-    // Allow header background customization via data attributes:
-    // <header id="hero" data-bg="/path/to/image.png" data-bg-transparent="true" data-bg-opacity="0.12">
+    // Allow header background customization via data attributes (unchanged behavior)
     const header = container.closest('header') || document.getElementById('hero');
     if (header && header.dataset && header.dataset.bg) {
         const bgUrl = header.dataset.bg;
@@ -237,8 +267,8 @@ document.querySelectorAll('.card, .data-box, .innovation-card, .team-member').fo
         header.style.backgroundPosition = 'center center';
     }
 
-    // configuration for each star: start position (percent l,t), duration (ms), delay (ms), size (px), tail length (px)
-    const specs = [
+    // base spawn specs (start positions and visual params)
+    const baseSpecs = [
         { l:6, t:6, dur:9000, delay:800, size:3, tail:180 },
         { l:14, t:12, dur:11000, delay:3000, size:4, tail:200 },
         { l:4, t:20, dur:13000, delay:7000, size:5, tail:240 },
@@ -250,22 +280,21 @@ document.querySelectorAll('.card, .data-box, .innovation-card, .team-member').fo
         { l:2, t:12, dur:18000, delay:17000, size:5, tail:240 }
     ];
 
-    // clear any existing children (in case HTML contains placeholders)
+    // cleanup any placeholder content
     container.innerHTML = '';
 
-    // create background sparkling stars
+    // create background sparkling stars (fewer on small screens)
+    const isSmallScreen = window.innerWidth && window.innerWidth < 768;
+    const bgCount = isSmallScreen ? 20 : 50;
     const bgWrapper = document.createElement('div');
     bgWrapper.className = 'bg-stars';
-    const bgCount = 50;
     for (let i = 0; i < bgCount; i++) {
         const b = document.createElement('div');
         b.className = 'bg-star';
         const sizeClass = (Math.random() < 0.12) ? 'large' : (Math.random() < 0.35 ? 'medium' : 'small');
         b.classList.add(sizeClass);
-        const left = Math.random() * 100;
-        const top = Math.random() * 100;
-        b.style.left = left + '%';
-        b.style.top = top + '%';
+        b.style.left = (Math.random() * 100) + '%';
+        b.style.top = (Math.random() * 100) + '%';
         const dur = 2000 + Math.random() * 5000;
         const delay = Math.random() * 5000;
         b.style.animation = `twinkle ${dur}ms ease-in-out ${delay}ms infinite`;
@@ -273,111 +302,138 @@ document.querySelectorAll('.card, .data-box, .innovation-card, .team-member').fo
     }
     container.appendChild(bgWrapper);
 
-    // helper to convert percent to px within container
-    const percentToPx = (pct, axisSize) => (pct / 100) * axisSize;
+    // Pool configuration
+    const poolSize = isSmallScreen ? 6 : 12; // total DOM nodes to allocate once
+    let maxConcurrent = isSmallScreen ? 2 : 5; // simultaneous moving stars
 
-    // create star elements (core + tail). JS will align tails to motion vector.
-    const stars = specs.map((s) => {
-        const star = document.createElement('div');
-        star.className = 'star';
-        star.style.left = s.l + '%';
-        star.style.top = s.t + '%';
+    // helper: create a star DOM node (core + tail)
+    function createStarNode() {
+        const star = document.createElement('div'); star.className = 'star';
+        const tail = document.createElement('div'); tail.className = 'tail';
+        const core = document.createElement('div'); core.className = 'core';
+        star.appendChild(tail); star.appendChild(core);
+        // initial hidden state
+        star.style.opacity = '0'; tail.style.opacity = '0';
+        return { el: star, tail, core, busy: false, timers: [] };
+    }
 
-        const tail = document.createElement('div');
-        tail.className = 'tail';
-        tail.style.width = s.tail + 'px';
-        tail.style.opacity = '0';
-        star.appendChild(tail);
+    // allocate pool
+    const pool = [];
+    for (let i = 0; i < poolSize; i++) {
+        const node = createStarNode();
+        pool.push(node);
+        container.appendChild(node.el);
+    }
 
-        const core = document.createElement('div');
-        core.className = 'core';
-        core.style.width = s.size + 'px';
-        core.style.height = s.size + 'px';
-        star.appendChild(core);
+    // utility: clear timers attached to a pooled node
+    function clearNodeTimers(node) {
+        if (!node || !node.timers) return;
+        node.timers.forEach(id => clearTimeout(id));
+        node.timers.length = 0;
+    }
 
-        container.appendChild(star);
-        return { el: star, tail, core, spec: s };
-    });
+    // spawn a single star using an idle node from the pool
+    function spawn(spec) {
+        const idle = pool.find(p => !p.busy);
+        if (!idle) return false;
+        idle.busy = true;
+        clearNodeTimers(idle);
 
-    // animate star: compute travel vector based on current container size and align tail to be opposite that vector
-    function animateStar(starObj) {
-        const { el, tail, core, spec } = starObj;
+        const el = idle.el, tail = idle.tail, core = idle.core;
+
+        // set visual params
+        el.style.left = spec.l + '%'; el.style.top = spec.t + '%';
+        core.style.width = spec.size + 'px'; core.style.height = spec.size + 'px';
+
+        // compute travel distances relative to container/viewport
         const rect = container.getBoundingClientRect();
-        const startX = percentToPx(spec.l, rect.width);
-        const startY = percentToPx(spec.t, rect.height);
-
-        // travel distances - move roughly off-screen to the right and down
         const travelX = Math.max(rect.width, window.innerWidth) * 1.4;
         const travelY = Math.max(rect.height, window.innerHeight) * 0.35;
 
-        // compute tail rotation so it trails opposite the velocity vector
-        const velX = travelX;
-        const velY = travelY;
-        const tailAngleRad = Math.atan2(-velY, -velX); // opposite direction
-        const tailAngleDeg = tailAngleRad * (180 / Math.PI);
+        // tail trails opposite velocity vector
+        const tailAngleDeg = Math.atan2(-travelY, -travelX) * (180 / Math.PI);
         tail.style.transform = `translateY(-50%) rotate(${tailAngleDeg}deg)`;
 
-        // set tail length relative to movement but clamp to spec.tail
         const travelMag = Math.sqrt(travelX * travelX + travelY * travelY);
         const tailLen = Math.min(spec.tail, Math.round(travelMag * 0.65));
-    tail.style.width = tailLen + 'px';
-    tail.style.left = '0px';
-    tail.style.top = '50%';
+        tail.style.width = tailLen + 'px'; tail.style.left = '0px'; tail.style.top = '50%';
 
-        // initial state
-        el.style.transition = 'none';
-        el.style.transform = `translate(0px, 0px)`;
-        el.style.opacity = '0';
-        tail.style.opacity = '0';
+        // reset transitions and state
+        el.style.transition = 'none'; tail.style.transition = 'none';
+        el.style.transform = 'translate(0px, 0px)'; el.style.opacity = '0'; tail.style.opacity = '0';
 
-        setTimeout(() => {
+        // schedule start with some jitter to avoid lockstep
+        const startDelay = spec.delay + Math.random() * 800;
+        const startTimer = setTimeout(() => {
             requestAnimationFrame(() => {
                 el.style.transition = `transform ${spec.dur}ms cubic-bezier(.2,.8,.2,1), opacity ${Math.min(600, spec.dur/6)}ms linear`;
                 tail.style.transition = `opacity ${Math.min(600, spec.dur/6)}ms linear, width ${spec.dur}ms linear`;
 
-                el.style.opacity = '1';
-                tail.style.opacity = '0.95';
-
+                el.style.opacity = '1'; tail.style.opacity = '0.95';
                 el.style.transform = `translate(${travelX}px, ${travelY}px)`;
 
-                // fade out slightly before animation ends
-                setTimeout(() => {
-                    el.style.opacity = '0';
-                    tail.style.opacity = '0';
-                }, spec.dur - 700);
+                // fade a bit before end
+                const fadeTimer = setTimeout(() => { el.style.opacity = '0'; tail.style.opacity = '0'; }, spec.dur - 700);
 
-                // reset and schedule next
-                setTimeout(() => {
-                    el.style.transition = 'none';
-                    tail.style.transition = 'none';
-                    el.style.transform = `translate(0px, 0px)`;
-                    el.style.opacity = '0';
-                    tail.style.opacity = '0';
-                    const jitter = Math.round(Math.random() * 6000);
-                    setTimeout(() => animateStar(starObj), Math.max(1200, spec.delay + jitter));
-                }, spec.dur + 20);
+                // reset node and mark idle after animation
+                const resetTimer = setTimeout(() => {
+                    el.style.transition = 'none'; tail.style.transition = 'none';
+                    el.style.transform = 'translate(0px, 0px)'; el.style.opacity = '0'; tail.style.opacity = '0';
+                    idle.busy = false;
+                }, spec.dur + 40);
+
+                idle.timers.push(fadeTimer, resetTimer);
             });
-        }, spec.delay);
+        }, startDelay);
+
+        idle.timers.push(startTimer);
+        return true;
     }
 
-    // kick off all stars
-    stars.forEach(s => animateStar(s));
+    // spawn controller — maintain limited concurrency and randomized intervals
+    let running = true;
+    let currentConcurrent = 0;
 
-    // rebuild stars on resize so distances and angles recompute
-    let resizeTimer = null;
+    function scheduleSpawner() {
+        if (!running) return;
+        // cap concurrency by counting busy nodes
+        currentConcurrent = pool.reduce((acc, p) => acc + (p.busy ? 1 : 0), 0);
+        if (currentConcurrent < maxConcurrent) {
+            // choose a random spec
+            const spec = baseSpecs[Math.floor(Math.random() * baseSpecs.length)];
+            spawn(spec);
+        }
+        // schedule next spawn with randomized interval
+        const nextIn = 1200 + Math.random() * 5000;
+        setTimeout(scheduleSpawner, nextIn);
+    }
+
+    // start the spawner
+    scheduleSpawner();
+
+    // handle resize: adjust concurrency and recreate bg stars if needed
+    let resizeDeb = null;
     window.addEventListener('resize', () => {
-        if (resizeTimer) clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(() => {
-            container.querySelectorAll('.star').forEach(x => x.remove());
-            const newStars = specs.map((s) => {
-                const star = document.createElement('div'); star.className = 'star'; star.style.left = s.l + '%'; star.style.top = s.t + '%';
-                const tail = document.createElement('div'); tail.className = 'tail'; tail.style.width = s.tail + 'px'; tail.style.opacity = '0'; tail.style.left = '0px'; star.appendChild(tail);
-                const core = document.createElement('div'); core.className = 'core'; core.style.width = s.size + 'px'; core.style.height = s.size + 'px'; star.appendChild(core);
-                container.appendChild(star);
-                return { el: star, tail, core, spec: s };
-            });
-            newStars.forEach(s => animateStar(s));
-        }, 250);
+        if (resizeDeb) clearTimeout(resizeDeb);
+        resizeDeb = setTimeout(() => {
+            const nowSmall = window.innerWidth && window.innerWidth < 768;
+            maxConcurrent = nowSmall ? 2 : 5;
+            // rebuild simple bg stars field without touching the pool DOM nodes
+            const existingBg = container.querySelector('.bg-stars');
+            if (existingBg) existingBg.remove();
+            const newBg = document.createElement('div'); newBg.className = 'bg-stars';
+            const newCount = nowSmall ? 20 : 50;
+            for (let i = 0; i < newCount; i++) {
+                const b = document.createElement('div'); b.className = 'bg-star';
+                const sizeClass = (Math.random() < 0.12) ? 'large' : (Math.random() < 0.35 ? 'medium' : 'small');
+                b.classList.add(sizeClass);
+                b.style.left = (Math.random() * 100) + '%'; b.style.top = (Math.random() * 100) + '%';
+                const dur = 2000 + Math.random() * 5000; const delay = Math.random() * 5000;
+                b.style.animation = `twinkle ${dur}ms ease-in-out ${delay}ms infinite`;
+                newBg.appendChild(b);
+            }
+            container.appendChild(newBg);
+        }, 300);
     });
 
 })();

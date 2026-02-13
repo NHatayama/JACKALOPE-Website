@@ -5,11 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JACKALOPE | Lunar Jumping Robot - NASA HUNCH</title>
     <link rel="stylesheet" href="style.css">
+    <!-- favicon (uses attached screenshot) -->
+    <link rel="icon" type="image/png" href="Screenshot_2026-02-12_144707-removebg-preview.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
 </head>
 <body>
     <nav>
-        <div class="logo-space"><a href="#hero" class="logo-link">JACKALOPE</a></div>
+        <div class="logo-space">
+            <img src="Screenshot_2026-02-12_144707-removebg-preview.png" alt="JACKALOPE logo" class="nav-logo">
+            <a href="#hero" class="logo-link">JACKALOPE</a>
+        </div>
         <!-- hamburger/menu toggle for small screens -->
         <button class="nav-toggle" aria-label="Open navigation" aria-expanded="false" aria-controls="main-nav">
             <span class="hamburger"></span>
@@ -37,8 +44,6 @@
         <div class="overlay">
             <h1>JACKALOPE</h1>
             <p class="subtitle">(Hover over the text)</p>
-            <p class="subtitle">Next-Generation Lunar Exploration Robot</p>
-            <div class="status-tag">STATUS: CDR COMPLETE</div>
         </div>
     </header>
 
@@ -66,13 +71,13 @@
                 <div class="media-category-grid">
                     <div class="media-box" aria-label="Forcegraph 1">
                         <div class="media-inner">
-                            <img src="forcegraph1.png" alt="Force graph 1">
+                            <img class="lazy" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="forcegraph1.png" alt="Force graph 1" loading="lazy">
                         </div>
                         <div class="media-analysis">Analysis: Peak impact at timestamp 0.42s, high lateral forces observed on left strut.</div>
                     </div>
                     <div class="media-box" aria-label="Forcegraph 2">
                         <div class="media-inner">
-                            <img src="forcegraph2.png" alt="Force graph 2">
+                            <img class="lazy" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="forcegraph2.png" alt="Force graph 2" loading="lazy">
                         </div>
                         <div class="media-analysis">Analysis: Repeated impulses indicate damping required; consider Increasing damping coefficient by 15%.</div>
                     </div>
@@ -84,7 +89,7 @@
                 <div class="media-category-grid">
                     <div class="media-box" aria-label="Iteration 1">
                         <div class="media-inner">
-                            <img src="iteration1.png" alt="Iteration 1">
+                            <img class="lazy" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="iteration1.png" alt="Iteration 1" loading="lazy">
                         </div>
                         <div class="media-analysis">Iteration notes: Prototype 1 - base chassis cracked at joint A. Fix: reinforce with fillet and 2mm carbon plate.</div>
                     </div>
@@ -150,7 +155,7 @@
    
 
     <section id="innovations" class="dark-section">
-        <h2>Key Innovations</h2>
+        <h2>Notable Abilities</h2>
         <div class="innovations-container">
             <div class="innovation-card">
                 <h3>Spring Mechanism</h3>
