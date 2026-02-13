@@ -197,13 +197,26 @@ document.querySelectorAll('.card, .data-box, .innovation-card, .team-member').fo
     const lightbox = document.getElementById('lightbox');
     if (!lightbox) return;
     const lightboxImg = lightbox.querySelector('.lightbox-img');
+    const lightboxVideo = lightbox.querySelector('.lightbox-video');
     const lightboxAnalysis = lightbox.querySelector('.lightbox-analysis');
     const closeBtn = lightbox.querySelector('.lightbox-close');
 
-    const openLightbox = (src, alt, analysisHtml) => {
-        lightboxImg.src = src;
-        lightboxImg.alt = alt || '';
+    const openLightbox = (src, alt, analysisHtml, isVideo) => {
         lightboxAnalysis.innerHTML = analysisHtml || '';
+        // Hide both, then show appropriate media
+        lightboxImg.style.display = 'none';
+        lightboxVideo.style.display = 'none';
+        lightboxImg.src = '';
+        lightboxVideo.src = '';
+        if (isVideo) {
+            lightboxVideo.src = src;
+            lightboxVideo.style.display = '';
+            lightboxVideo.play().catch(() => {});
+        } else {
+            lightboxImg.src = src;
+            lightboxImg.alt = alt || '';
+            lightboxImg.style.display = '';
+        }
         lightbox.classList.add('visible');
         lightbox.setAttribute('aria-hidden', 'false');
         document.documentElement.classList.add('no-scroll');
@@ -213,7 +226,12 @@ document.querySelectorAll('.card, .data-box, .innovation-card, .team-member').fo
     const closeLightbox = () => {
         lightbox.classList.remove('visible');
         lightbox.setAttribute('aria-hidden', 'true');
+        // clear both media
         lightboxImg.src = '';
+        if (lightboxVideo) {
+            lightboxVideo.pause();
+            lightboxVideo.src = '';
+        }
         lightboxAnalysis.innerHTML = '';
         document.documentElement.classList.remove('no-scroll');
         document.body.classList.remove('no-scroll');
@@ -228,7 +246,8 @@ document.querySelectorAll('.card, .data-box, .innovation-card, .team-member').fo
             const src = media ? (media.currentSrc || media.src) : null;
             const alt = media ? (media.alt || '') : '';
             const analysisHtml = box.querySelector('.media-analysis') ? box.querySelector('.media-analysis').innerHTML : '';
-            if (src) openLightbox(src, alt, analysisHtml);
+            const isVideo = media && media.tagName && media.tagName.toLowerCase() === 'video';
+            if (src) openLightbox(src, alt, analysisHtml, isVideo);
         });
     });
 
@@ -237,8 +256,8 @@ document.querySelectorAll('.card, .data-box, .innovation-card, .team-member').fo
 
     // click outside image to close
     lightbox.addEventListener('click', (e) => {
-        if (e.target === lightbox || e.target === lightboxImg) {
-            // if clicked the backdrop or the image itself (click image also closes)
+        if (e.target === lightbox || e.target === lightboxImg || e.target === lightboxVideo) {
+            // if clicked the backdrop or the media itself (click media also closes)
             closeLightbox();
         }
     });
