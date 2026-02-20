@@ -456,3 +456,87 @@ document.querySelectorAll('.card, .data-box, .innovation-card, .team-member').fo
     });
 
 })();
+
+
+/* Rotating model animation: smooth, time-based rotation using requestAnimationFrame.
+   Adds subtle tilt, bob, and a moving shine to emphasize the model. Pauses transform on hover/tap. */
+(function() {
+    const plinth = document.querySelector('.plinth');
+    const model = plinth ? plinth.querySelector('.rotating-model') : null;
+    const shine = plinth ? plinth.querySelector('.shine') : null;
+    if (!plinth || !model) return;
+
+    let last = null;
+    let rotationSpeed = 0.015; // degrees per ms (slightly slower)
+    let bobAmt = 4; // px vertical bob amplitude (smaller)
+    let tiltAmt = 4; // deg (smaller tilt)
+    const smallScreen = window.innerWidth && window.innerWidth < 600;
+    if (smallScreen) {
+        rotationSpeed *= 0.55;
+        bobAmt = Math.max(1, Math.round(bobAmt * 0.5));
+        tiltAmt = Math.max(1, Math.round(tiltAmt * 0.5));
+    }
+
+    // smoothing state
+    let currentAngle = 0;
+    let currentTilt = 0;
+    let currentScale = 1;
+    let targetAngle = 0;
+    let targetTilt = 0;
+    let targetScale = 1;
+    let hovered = false;
+
+    plinth.addEventListener('mouseenter', () => { hovered = true; });
+    plinth.addEventListener('mouseleave', () => { hovered = false; });
+    plinth.addEventListener('touchstart', () => { hovered = true; setTimeout(()=> hovered = false, 1000); }, { passive: true });
+
+    function lerp(a, b, t) { return a + (b - a) * t; }
+
+    function step(ts) {
+        if (!last) last = ts;
+        const dt = ts - last; last = ts;
+
+        // base motion values (time-derived)
+        targetAngle = (ts * rotationSpeed) % 360;
+        targetTilt = Math.sin(ts / 1200) * tiltAmt;
+        const bob = Math.sin(ts / 900) * bobAmt;
+
+        // hover reduces rotation speed and slightly increases scale/tilt but smoothly
+        const hoverMult = hovered ? 0.45 : 1.0; // slower rotation when hovered
+        const hoverScale = hovered ? 1.02 : 1.0;
+        const hoverTilt = hovered ? targetTilt * 1.1 : targetTilt;
+
+        // apply hover multipliers to targets
+        targetAngle = targetAngle * hoverMult;
+        targetTilt = hoverTilt;
+        targetScale = hoverScale;
+
+        // smooth current values towards targets
+        currentAngle = lerp(currentAngle, targetAngle, 0.08);
+        currentTilt = lerp(currentTilt, targetTilt, 0.06);
+        currentScale = lerp(currentScale, targetScale, 0.06);
+
+        // apply transforms
+        model.style.transform = `rotateY(${currentAngle}deg) rotateX(${currentTilt}deg) scale(${currentScale})`;
+
+        // plinth subtle vertical movement (shadow handled by CSS ::after)
+        plinth.style.transform = `translateY(${bob}px)`;
+
+        // animate atmosphere overlay slightly for non-rigid effect
+        if (shine) {
+            let a = Math.sin(ts / 1400) * 6; // small movement
+            let b = Math.cos(ts / 1700) * 8;
+            if (smallScreen) { a *= 0.5; b *= 0.55; }
+            shine.style.backgroundPosition = `${50 + a}% ${50 + b}%`;
+            // gentle opacity breathing
+            const baseOpacity = smallScreen ? 0.5 : 0.55;
+            const breath = smallScreen ? 0.035 : 0.06;
+            shine.style.opacity = (baseOpacity + Math.sin(ts / 3200) * breath).toFixed(3);
+        }
+
+        requestAnimationFrame(step);
+    }
+
+    // kick off animation
+    requestAnimationFrame(step);
+})();
