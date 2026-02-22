@@ -126,25 +126,37 @@
                 <div class="media-category-grid">
                     <div class="media-box" aria-label="Model 1">
                         <div class="media-inner">
-                            <img class="lazy" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="" alt="Model 1" loading="lazy">
+                            <img class="lazy" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="top.png" alt="Model 1" loading="lazy">
                         </div>
                         <div class="media-analysis">Analysis:</div>
                     </div>
                     <div class="media-box" aria-label="Model 2">
                         <div class="media-inner">
-                            <img class="lazy" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="" alt="Model 2" loading="lazy">
+                            <img class="lazy" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="pcb.png" alt="Model 2" loading="lazy">
                         </div>
                         <div class="media-analysis">Analysis:</div>
                     </div>
                      <div class="media-box" aria-label="Model 3">
                         <div class="media-inner">
-                            <img class="lazy" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="" alt="Model 3" loading="lazy">
+                            <img class="lazy" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="release.png" alt="Model 3" loading="lazy">
                         </div>
                         <div class="media-analysis">Analysis:</div>
                     </div>
                      <div class="media-box" aria-label="Model 4">
                         <div class="media-inner">
-                            <img class="lazy" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="" alt="Model 4" loading="lazy">
+                            <img class="lazy" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="screw.png" alt="Model 4" loading="lazy">
+                        </div>
+                        <div class="media-analysis">Analysis:</div>
+                    </div>
+                        <div class="media-box" aria-label="Model 5">
+                        <div class="media-inner">
+                            <img class="lazy" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="screw.png" alt="Model 5" loading="lazy">
+                        </div>
+                        <div class="media-analysis">Analysis:</div>
+                    </div>
+                        <div class="media-box" aria-label="Model 6">
+                        <div class="media-inner">
+                            <img class="lazy" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="screw.png" alt="Model 6" loading="lazy">
                         </div>
                         <div class="media-analysis">Analysis:</div>
                     </div>
@@ -175,7 +187,7 @@
         <h2> Key Materials & How it Works</h2>
         <div class="spec-container">
             <div class="spec-item">
-                <strong>Electronics: </strong><br>Waveshare General Driver Board,<br> ESP32-CAM,<br> OV2640 Camera Module 140 Degree Wide Angle Lens,<br> Tattu 11.1V 450mAh 3S LiPo Battery Pack 45C,<br>mini high torque motor
+                <strong>Electronics: </strong><br>Custom PCB,<br> ESP32-CAM,<br> OV2640 Camera Module 140 Degree Wide Angle Lens,<br> Tattu 11.1V 450mAh 3S LiPo Battery Pack 45C,<br>mini high torque motor
             </div>
             <div class="spec-item">
                 <strong>Mechanical: </strong> <br>Carbon Fiber, <br>Springs, <br>3D Printed ABS Housing, <br>Aluminum Fasteners,<br> support rods
@@ -184,7 +196,7 @@
         <div class="summary-grid testing-grid" style="margin-top:28px;">
             <div class="data-box">
                 <h4>Summary of the electronics for the Robot:</h4>
-                <p>We created a program, using the Waveshare IMU, to check the orientation of the board before and after launch, ensuring the robot is upright and ready for launch. The board checks orientation before winding begins and immediately before the final wind and button initation. If orientation isn't correct, an LED signals an error and launch is prevented to protect the robot.</p>
+                <p>We created a program, our custom PCB's IMU, to check the orientation of the board before and after launch, ensuring the robot is upright and ready for launch. The board checks orientation before winding begins and immediately before the final wind and button initation. If orientation isn't correct, an LED signals an error and launch is prevented to protect the robot.</p>
             </div>
             <div class="data-box">
                 <h4>Summary of the mechanics for the Robot:</h4>
@@ -200,7 +212,7 @@
         <div class="innovations-container">
             <div class="innovation-card">
                 <h3>Spring Mechanism</h3>
-                <p>Six springs indiivdually attached to the ineriror of the carbon fiber, all connecting back to a central disk that ensures equal force distribution.</p>
+                <p>Six springs indiivdually attached to the interior of the carbon fiber, all connecting back to a central disk that ensures equal force distribution.</p>
             </div>
             <div class="innovation-card">
                 <h3>Self-Righting</h3>
@@ -212,7 +224,7 @@
             </div>
             <div class="innovation-card">
                 <h3>Wireless Control</h3>
-                <p>Completely operates from a driver board embedded in the top of the robot. Image is transmitted via bluetooth or a local internet server, which allows seamless video capture.  </p>
+                <p>Completely operates from a PCB embedded in the top of the robot. Image is transmitted via bluetooth or a local internet server, which allows seamless video capture.  </p>
             </div>
             <div class="innovation-card">
                 <h3>Impact Resistance</h3>
@@ -227,7 +239,7 @@
         <div class="team-grid">
             <div class="team-member">
                 <h4>Oscar N</h4>
-                <p>Senior - Mechanical Design</p>
+                <p>Senior - Mechanical Design/Electronics</p>
             </div>
             <div class="team-member">
                 <h4>Raine D</h4>
