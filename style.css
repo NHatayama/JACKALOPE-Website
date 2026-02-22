@@ -1123,3 +1123,59 @@ footer p {
         margin: 10px 0 0 0;
     }
 }
+/* Ensure acronyms/abbr are always visible and show hover tooltip on all screen sizes */
+abbr, acronym, .acronym {
+  display: inline !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+/* Basic visible cue */
+abbr[title], acronym[title], .acronym[title] {
+  position: relative;
+  cursor: help;
+  text-decoration: underline dotted;
+  text-underline-offset: 2px;
+}
+
+/* Hover/focus tooltip */
+abbr[title]::after,
+acronym[title]::after,
+.acronym[title]::after {
+  content: attr(title);
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: calc(100% + 8px);
+  background: rgba(0,0,0,0.85);
+  color: #fff;
+  padding: 6px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  font-size: 0.85rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .15s ease, transform .15s ease;
+  z-index: 9999;
+}
+
+/* Show tooltip on hover and focus (keyboard accessible) */
+abbr[title]:hover::after,
+abbr[title]:focus::after,
+acronym[title]:hover::after,
+acronym[title]:focus::after,
+.acronym[title]:hover::after,
+.acronym[title]:focus::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-6px);
+}
+
+/* Make abbr focusable for keyboard users */
+abbr[title], acronym[title], .acronym[title] {
+  outline: none;
+}
+abbr[title]:focus {
+  box-shadow: 0 0 0 3px rgba(0,123,255,0.15);
+  border-radius: 2px;
+}
