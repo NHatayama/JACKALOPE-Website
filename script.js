@@ -60,10 +60,8 @@ document.querySelectorAll('.card, .data-box, .innovation-card, .team-member').fo
     if (!heroHeading) return;
 
     // Disable per-letter tooltips on touch devices or small screens for performance/usability
-    const prefersNoHover = (window.matchMedia && (window.matchMedia('(hover: none)').matches || window.matchMedia('(pointer: coarse)').matches));
-    const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints && navigator.maxTouchPoints > 0);
-    const smallScreen = window.innerWidth && window.innerWidth < 768;
-    if (prefersNoHover || isTouch || smallScreen) {
+    // Removed checks to enable on mobile
+    if (false) {
         // leave the heading text as-is (no per-letter spans)
         return;
     }
@@ -199,6 +197,7 @@ document.querySelectorAll('.card, .data-box, .innovation-card, .team-member').fo
     const lightboxImg = lightbox.querySelector('.lightbox-img');
     const lightboxVideo = lightbox.querySelector('.lightbox-video');
     const lightboxAnalysis = lightbox.querySelector('.lightbox-analysis');
+    const lightboxContent = lightbox.querySelector('.lightbox-content');
     const closeBtn = lightbox.querySelector('.lightbox-close');
 
     const openLightbox = (src, alt, analysisHtml, isVideo) => {
@@ -208,6 +207,7 @@ document.querySelectorAll('.card, .data-box, .innovation-card, .team-member').fo
         lightboxVideo.style.display = 'none';
         lightboxImg.src = '';
         lightboxVideo.src = '';
+        lightboxContent.classList.toggle('video-layout', isVideo);
         if (isVideo) {
             lightboxVideo.src = src;
             lightboxVideo.style.display = '';
@@ -233,6 +233,7 @@ document.querySelectorAll('.card, .data-box, .innovation-card, .team-member').fo
             lightboxVideo.src = '';
         }
         lightboxAnalysis.innerHTML = '';
+        lightboxContent.classList.remove('video-layout');
         document.documentElement.classList.remove('no-scroll');
         document.body.classList.remove('no-scroll');
     };

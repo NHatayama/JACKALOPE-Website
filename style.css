@@ -365,32 +365,6 @@ li a {
     .media-category-grid { grid-template-columns: 1fr; }
 }
 
-.media-box {
-    background: #1a1e2e;
-    padding: 0;
-    border: 2px solid var(--accent-cyan);
-    border-radius: 8px;
-    overflow: hidden;
-    aspect-ratio: 16 / 9;
-    min-height: 320px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-}
-
-.media-inner { width: 100%; height: 100%; display:flex; align-items:center; justify-content:center; }
-
-.media-box img,
-.media-box video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-    display: block;
-    background: #0b0d17;
-}
-
 /* ensure inner wrapper hides overflow so media can't leak out */
 .media-inner { overflow: hidden; box-sizing: border-box; }
 
@@ -418,6 +392,11 @@ li a {
     .subtitle { display: none; }
 }
 
+/* Make CAD model boxes smaller */
+#cad-models .media-box {
+    min-height: 200px;
+}
+
 .media-box .placeholder { color: var(--accent-cyan); padding: 8px 12px; }
 
 .media-box:hover { background: rgba(76, 201, 240, 0.06); box-shadow: 0 8px 20px rgba(76, 201, 240, 0.12); transform: translateY(-4px); }
@@ -428,15 +407,18 @@ li a {
     inset: 0;
     background: rgba(0,0,0,0.85);
     display: none;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     z-index: 4000;
     padding: 20px;
+    overflow-y: auto;
 }
 
 .lightbox.visible { display: flex; }
 
-.lightbox-img { max-width: 96%; max-height: 96%; border-radius: 6px; box-shadow: 0 12px 40px rgba(0,0,0,0.7); }
+.lightbox-img { max-width: 60%; max-height: 60vh; border-radius: 6px; box-shadow: 0 12px 40px rgba(0,0,0,0.7); }
+
+.lightbox-video { max-width: 60%; max-height: 60vh; border-radius: 6px; background: #000; }
 
 .lightbox-close {
     position: fixed;
@@ -474,18 +456,27 @@ li a {
     max-width: 1200px;
 }
 
+.lightbox-content.video-layout {
+    flex-direction: column;
+}
+
 .lightbox-analysis {
     max-width: 420px;
     color: var(--lunar-grey);
     font-size: 1rem;
     line-height: 1.45;
     background: transparent;
+    overflow-wrap: break-word;
 }
 
-@media (max-width: 900px) {
-    .lightbox-content { flex-direction: column; }
-    .lightbox-analysis { max-width: 92%; }
-    .lightbox-img { max-width: 92%; max-height: 60vh; }
+.lightbox-content.video-layout .lightbox-video {
+    max-width: 50%;
+    max-height: 40vh;
+    align-self: center;
+}
+
+.lightbox-content.video-layout .lightbox-analysis {
+    max-width: 100%;
 }
 
 .content-block { padding: 100px 10%; }
